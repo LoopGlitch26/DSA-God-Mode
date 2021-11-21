@@ -1,11 +1,26 @@
-# Given a binary tree root, count and return the number of nodes where its value is greater than or equal to the values of all of its descendants.
-class Solution:
-    def solve(self, root):
-        if root is None:
-            return 0
-        return self.count(root)
+// Given a binary tree root, count and return the number of nodes where its value is greater than or equal to the values of all of its descendants.
 
-    def count(self, root):
-        if root is None:
-            return 0
-        return self.count(root.left) + self.count(root.right) + 1 if root.val >= max(root.left.val, root.right.val) else self.count(root.left) + self.count(root.right)
+// Incorrect answer
+
+import java.util.*;
+
+class Solution {
+    public int countNodes(Tree root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftHeight = getHeight(root.left);
+        int rightHeight = getHeight(root.right);
+        if (leftHeight == rightHeight) {
+            return (1 << leftHeight) + countNodes(root.right);
+        } else {
+            return (1 << rightHeight) + countNodes(root.left);
+        }
+    }
+    private int getHeight(Tree root) {
+        if (root == null) {
+            return 0;
+        }
+        return 1 + getHeight(root.left);
+    }
+}
